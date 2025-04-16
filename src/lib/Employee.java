@@ -32,8 +32,25 @@ public class Employee {
     private String spouseName;
     private String spouseIdNumber;
 
-    private List<String> childNames;
-    private List<String> childIdNumbers;
+    private List<Child> children = new LinkedList<>(); // Menyimpan data anak dalam bentuk list
+
+	public class Child {
+		private String name;
+		private String idNumber;
+	
+		public Child(String name, String idNumber) {
+			this.name = name;
+			this.idNumber = idNumber;
+		}
+	
+		public String getName() {
+			return name;
+		}
+	
+		public String getIdNumber() {
+			return idNumber;
+		}
+	}
     
     public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, 
                    int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean isMale) {
@@ -45,9 +62,6 @@ public class Employee {
         this.joinDate = LocalDate.of(yearJoined, monthJoined, dayJoined);
         this.isForeigner = isForeigner;
         this.gender = isMale ? Gender.MALE : Gender.FEMALE; // Konversi boolean ke enum
-        
-        childNames = new LinkedList<String>();
-        childIdNumbers = new LinkedList<String>();
     }
     
     /**
@@ -55,34 +69,33 @@ public class Employee {
      * Jika pegawai adalah warga negara asing gaji bulanan diperbesar sebanyak 50%
      */
     
-     private static final int GRADE_1_SALARY = 3000000;
-     private static final int GRADE_2_SALARY = 5000000;
-     private static final int GRADE_3_SALARY = 7000000;
+    private static final int GRADE_1_SALARY = 3000000;
+    private static final int GRADE_2_SALARY = 5000000;
+    private static final int GRADE_3_SALARY = 7000000;
      
-     public void setMonthlySalary(int grade) {
-         int baseSalary = 0;
-     
-         switch (grade) {
-             case 1:
-                 baseSalary = GRADE_1_SALARY;
-                 break;
-             case 2:
-                 baseSalary = GRADE_2_SALARY;
-                 break;
-             case 3:
-                 baseSalary = GRADE_3_SALARY;
-                 break;
-             default:
-                 throw new IllegalArgumentException("Grade tidak valid");
-         }
-     
-         if (isForeigner) {
-             baseSalary *= 1.5;
-         }
-         this.monthlySalary = baseSalary;
-     }
-     
+    public void setMonthlySalary(int grade) {
+        int baseSalary = 0;
     
+        switch (grade) {
+            case 1:
+                baseSalary = GRADE_1_SALARY;
+                break;
+            case 2:
+                baseSalary = GRADE_2_SALARY;
+                break;
+            case 3:
+                baseSalary = GRADE_3_SALARY;
+                break;
+            default:
+                throw new IllegalArgumentException("Grade tidak valid");
+        }
+    
+        if (isForeigner) {
+            baseSalary *= 1.5;
+        }
+        this.monthlySalary = baseSalary;
+    }
+     
     public void setAnnualDeductible(int deductible) {    
         this.annualDeductible = deductible;
     }
@@ -96,14 +109,11 @@ public class Employee {
         this.spouseIdNumber = spouseIdNumber;
     }
     
-    
-    public void addChild(String childName, String childIdNumber) {
-        childNames.add(childName);
-        childIdNumbers.add(childIdNumber);
-    }
-    
+	public void addChild(String childName, String childIdNumber) {
+		children.add(new Child(childName, childIdNumber));
+	}
+	
     public int getAnnualIncomeTax() {
-        
         //Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
         LocalDate currentDate = LocalDate.now();
         
@@ -113,6 +123,13 @@ public class Employee {
             monthWorkingInYear = 12;
         }
         
-        return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+        return TaxFunction.calculateTax(
+            monthlySalary, 
+            otherMonthlyIncome, 
+            monthWorkingInYear, 
+            annualDeductible, 
+            spouseIdNumber == null || spouseIdNumber.equals(""), 
+            children.size()
+        );
     }
 }
