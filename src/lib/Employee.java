@@ -49,32 +49,27 @@ public class Employee {
      * Fungsi untuk menentukan gaji bulanan pegawai berdasarkan grade kepegawaiannya (grade 1: 3.000.000 per bulan, grade 2: 5.000.000 per bulan, grade 3: 7.000.000 per bulan)
      * Jika pegawai adalah warga negara asing gaji bulanan diperbesar sebanyak 50%
      */
-    private static final int GRADE_1_SALARY = 3000000;
-    private static final int GRADE_2_SALARY = 5000000;
-    private static final int GRADE_3_SALARY = 7000000;
+	public enum Grade {
+		GRADE_1(3000000),
+		GRADE_2(5000000),
+		GRADE_3(7000000);
+	
+		private final int baseSalary;
+	
+		Grade(int baseSalary) {
+			this.baseSalary = baseSalary;
+		}
+	
+		public int getBaseSalary(boolean isForeigner) {
+			return isForeigner ? (int) (baseSalary * 1.5) : baseSalary;
+		}
+	}
+	
 
-    public void setMonthlySalary(int grade) {
-        int baseSalary = 0;
-
-        switch (grade) {
-            case 1:
-                baseSalary = GRADE_1_SALARY;
-                break;
-            case 2:
-                baseSalary = GRADE_2_SALARY;
-                break;
-            case 3:
-                baseSalary = GRADE_3_SALARY;
-                break;
-            default:
-                throw new IllegalArgumentException("Grade tidak valid");
-        }
-
-        if (isForeigner) {
-            baseSalary *= 1.5;
-        }
-        this.monthlySalary = baseSalary;
-    }
+	public void setMonthlySalary(Grade grade) {
+		this.monthlySalary = grade.getBaseSalary(isForeigner);
+	}
+	
 
     public void setAnnualDeductible(int deductible) {
         this.annualDeductible = deductible;
