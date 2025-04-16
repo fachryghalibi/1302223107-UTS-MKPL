@@ -1,7 +1,6 @@
 package lib;
 
 import java.time.LocalDate;
-import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,24 +32,6 @@ public class Employee {
     private String spouseIdNumber;
 
     private List<Child> children = new LinkedList<>(); // Menyimpan data anak dalam bentuk list
-
-	public class Child {
-		private String name;
-		private String idNumber;
-
-		public Child(String name, String idNumber) {
-			this.name = name;
-			this.idNumber = idNumber;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public String getIdNumber() {
-			return idNumber;
-		}
-	}
 
     // Constructor dengan parameter object EmployeeInfo
     public Employee(EmployeeInfo info) {
@@ -123,11 +104,11 @@ public class Employee {
         }
 
         return TaxFunction.calculateTax(
-            monthlySalary, 
-            otherMonthlyIncome, 
-            monthWorkingInYear, 
-            annualDeductible, 
-            spouseIdNumber == null || spouseIdNumber.equals(""), 
+            monthlySalary,
+            otherMonthlyIncome,
+            monthWorkingInYear,
+            annualDeductible,
+            spouseIdNumber == null || spouseIdNumber.equals(""),
             children.size()
         );
     }
