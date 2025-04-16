@@ -5,6 +5,12 @@ import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
 
+// Enum untuk representasi gender
+enum Gender {
+    MALE,
+    FEMALE
+}
+
 public class Employee {
 
     private String employeeId;
@@ -13,11 +19,11 @@ public class Employee {
     private String idNumber;
     private String address;
     
-    private LocalDate joinDate; // Field baru menggantikan yearJoined, monthJoined, dayJoined
+    private LocalDate joinDate;
     private int monthWorkingInYear;
     
     private boolean isForeigner;
-    private boolean gender; //true = Laki-laki, false = Perempuan
+    private Gender gender; // Menggunakan enum Gender sebagai pengganti boolean
     
     private int monthlySalary;
     private int otherMonthlyIncome;
@@ -30,15 +36,15 @@ public class Employee {
     private List<String> childIdNumbers;
     
     public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, 
-                   int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
+                   int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean isMale) {
         this.employeeId = employeeId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.idNumber = idNumber;
         this.address = address;
-        this.joinDate = LocalDate.of(yearJoined, monthJoined, dayJoined); // Membuat objek LocalDate
+        this.joinDate = LocalDate.of(yearJoined, monthJoined, dayJoined);
         this.isForeigner = isForeigner;
-        this.gender = gender;
+        this.gender = isMale ? Gender.MALE : Gender.FEMALE; // Konversi boolean ke enum
         
         childNames = new LinkedList<String>();
         childIdNumbers = new LinkedList<String>();
