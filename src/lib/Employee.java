@@ -28,8 +28,8 @@ public class Employee {
     private int otherMonthlyIncome;
     private int annualDeductible;
 
-    private String spouseName;
-    private String spouseIdNumber;
+	private Spouse spouse;
+
 
     private List<Child> children = new LinkedList<>(); // Menyimpan data anak dalam bentuk list
 
@@ -84,10 +84,9 @@ public class Employee {
         this.otherMonthlyIncome = income;
     }
 
-    public void setSpouse(String spouseName, String spouseIdNumber) {
-        this.spouseName = spouseName;
-        this.spouseIdNumber = spouseIdNumber;
-    }
+	public void setSpouse(Spouse spouse) {
+		this.spouse = spouse;
+	}
 
 	public void addChild(Child child) {
 		children.add(child);
@@ -109,7 +108,7 @@ public class Employee {
             otherMonthlyIncome,
             monthWorkingInYear,
             annualDeductible,
-            spouseIdNumber == null || spouseIdNumber.equals(""),
+            spouse == null || spouse.getIdNumber().equals(""),
             children.size()
         );
     }
