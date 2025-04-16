@@ -89,9 +89,10 @@ public class Employee {
         this.spouseIdNumber = spouseIdNumber;
     }
 
-    public void addChild(String childName, String childIdNumber) {
-        children.add(new Child(childName, childIdNumber));
-    }
+	public void addChild(Child child) {
+		children.add(child);
+	}
+	
 
     public int getAnnualIncomeTax() {
         //Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
